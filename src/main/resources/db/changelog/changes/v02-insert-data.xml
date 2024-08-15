@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd
+      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.5.xsd">
+
+    <changeSet author="lb-generated"  id="1185214997195-10">
+        <insert  catalogName="rnddatabase"
+                 tableName="STUDENT">
+            <column  name="ID"  value="1"/>
+            <column  name="NAME"  value="user1"/>
+            <column  name="address"  value="India"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="lb-generated" id="1185214997195-11">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(*) from bonus</sqlCheck>
+        </preConditions>
+
+        <sql splitStatements="true"
+             stripComments="true">insert into bonus (name) values ('test')
+            <comment>Insert initial data</comment>
+        </sql>
+    </changeSet>
+
+    <!--<changeSet author="lb-generated" id="1185214997195-12">
+        <sqlFile encoding="UTF-8"
+                 endDelimiter="\nGO"
+                 path="insert-dept.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>-->
+
+    <changeSet author="lb-generated"  id="1185214997195-12">
+        <insert  catalogName="rnddatabase"
+                 tableName="DEPT">
+            <column name="DEPTNO" value="1"/>
+            <column name="DNAME" value="HR"/>
+            <column name="LOC" value="Pune"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -24,3 +24,27 @@ To customize the path of our API documentation. Modify our application.propertie
 So now our API documentation will be available at ``http://localhost:8080/swagger-ui-custom.html``
 
 ---
+
+## Actuator
+
+To enable Actuator include this spring dependency --
+```xml
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+```
+Custom actuator 
+
+---
+## Caching in SpringBoot
+
+```xml
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
+```
+
+---
