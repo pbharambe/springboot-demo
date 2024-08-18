@@ -41,7 +41,7 @@ public class StudentRestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(studentEntity)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1L))
+                    .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.firstName").value(studentEntity.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(studentEntity.getLastName()));
     }
