@@ -6,7 +6,7 @@ import org.springframework.web.client.RestClient;
 @Service
 public class HealthMonitorService {
 
-    public String getHttpStatusCode(String url){
+    public String getHttpStatusCode(String url) {
         return RestClient.create().get().uri(url).retrieve().toEntity(String.class).getStatusCode().toString();
 
         /*try {

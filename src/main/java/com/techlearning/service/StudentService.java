@@ -13,7 +13,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
-@CacheConfig(cacheNames={"student_data"})
+@CacheConfig(cacheNames = {"student_data"})
 public class StudentService {
 
     Logger logger = LoggerFactory.getLogger(StudentService.class);
@@ -35,13 +35,13 @@ public class StudentService {
     }
 
     @Transactional
-    @CacheEvict(value="student_data", key="#root.args[0]")
+    @CacheEvict(value = "student_data", key = "#root.args[0]")
     public void deleteStudentByName(String firstName) {
         logger.info("Delete Student entry by firstName criteria");
         studentRepository.deleteByFirstName(firstName);
     }
 
-    @CacheEvict(value="student_data", allEntries = true, key="#root.args[0]")
+    @CacheEvict(value = "student_data", allEntries = true, key = "#root.args[0]")
     public void deleteStudentData() {
         logger.info("Delete all Student entries");
         studentRepository.deleteAll();

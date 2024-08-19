@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WebApplicationController {
 
     @Operation(summary = "Welcome index Page.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Return Welcome message with name",
-                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)) })
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Return Welcome message with name", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))})
     })
     @GetMapping(value = "/index/{name}")
     public ResponseEntity<String> welcome(Model model, @PathVariable("name") String name) {

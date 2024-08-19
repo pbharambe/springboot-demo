@@ -38,7 +38,6 @@ public class StudentRestController {
         return new ResponseEntity<>(service.getStudent(firstName), HttpStatus.OK);
     }
 
-
     @DeleteMapping("/delete")
     public ResponseEntity<String> delete(@RequestParam("firstName") @Valid String firstName) {
         service.deleteStudentByName(firstName);

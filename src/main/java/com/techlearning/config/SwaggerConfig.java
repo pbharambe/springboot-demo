@@ -14,7 +14,6 @@ import java.util.List;
 @Configuration
 public class SwaggerConfig {
 
-
     //@OpenAPIDefinition(info = @Info(title = "Demo API", version = "2.0", description = "Swagger API Demo"))
     @Value("${techlearning.openapi.dev-url}")
     private String devUrl;
