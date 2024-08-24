@@ -5,6 +5,10 @@ on:
     branches:
       - master
       - dev
+  pull_request:
+    branches:
+      - master
+      - dev
 jobs:
   check-pr:
     runs-on: ubuntu-latest
@@ -12,19 +16,74 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v3
 
-      - name: Check PR Status in Other Repository
-        id: check_pr_status
+      - name: Get all open PRs in another repository
+        id: get_prs
         run: |
-          PR_STATUS=$(curl -s \
+          PRS=$(curl -s \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/pbharambe/PR-demo/pulls/1 | jq -r .state)
+            https://api.github.com/repos/pbharambe/PR-demo/pulls)
+          echo "$PRS" > prs.json
+          echo "::set-output name=prs::$PRS"
 
-          echo "PR status: $PR_STATUS"
-          if [ "$PR_STATUS" != "closed" ]; then
-            echo "The required PR in the other repository is not merged."
+      - name: Filter PRs by commit messages
+        id: filter_prs
+        run: |
+          PRS=$(cat prs.json)
+          MATCHING_PR_FOUND=false
+
+          for row in $(echo "${PRS}" | jq -r '.[] | @base64'); do
+            _jq() {
+              echo ${row} | base64 --decode | jq -r ${1}
+            }
+
+            PR_NUMBER=$(_jq '.number')
+            PR_TITLE=$(_jq '.title')
+
+            # Fetch commits for this PR
+            COMMITS=$(curl -s \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              $(_jq '.commits_url'))
+          
+            # Check for specific words in commit messages
+            for commit in $(echo "${COMMITS}" | jq -r '.[] | @base64'); do
+              _jq_commit() {
+                echo ${commit} | base64 --decode | jq -r ${1}
+              }
+
+              COMMIT_MESSAGE=$(_jq_commit '.commit.message')
+
+              if echo "$COMMIT_MESSAGE" | grep -iq "specific-word"; then
+                MATCHING_PR_FOUND=true
+                echo "Found matching commit in PR #$PR_NUMBER: $COMMIT_MESSAGE"
+                break 2  # Exit both loops if a match is found
+              fi
+            done
+          done
+
+          if [ "$MATCHING_PR_FOUND" = true ]; then
+            echo "A PR with the specific word in the commit message was found. Exiting..."
             exit 1
+          else
+            echo "No matching PRs found."
           fi
 
-      - name: Continue if PR is merged
-        run: echo "The required PR is merged, proceeding with the workflow."
+
+
+#      - name: Check PR Status in Other Repository
+#        id: check_pr_status
+#        run: |
+#          PR_STATUS=$(curl -s \
+#            -H "Accept: application/vnd.github.v3+json" \
+#            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+#            https://api.github.com/repos/pbharambe/PR-demo/pulls/1 | jq -r .state)
+#
+#          echo "PR status: $PR_STATUS"
+#          if [ "$PR_STATUS" != "closed" ]; then
+#            echo "The required PR in the other repository is not merged."
+#            exit 1
+#          fi
+#
+#      - name: Continue if PR is merged
+#        run: echo "The required PR is merged, proceeding with the workflow."
