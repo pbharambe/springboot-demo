@@ -46,5 +46,58 @@ Custom actuator
         <artifactId>spring-boot-starter-cache</artifactId>
     </dependency>
 ```
+---
+## Commit Message Style
+
+Enforcing a consistent Git commit message style helps improve readability and maintainability in projects.
+
+**Guidelines --**
+- **Format:** A common convention is the following:
+- **Header:** 50 characters or less summarizing the change.
+- **Body:** Optionally, a more detailed description of the change (wrapped at 72 characters per line).
+- **Create a Commit Message Hook :** The hook file will be located in your Git repository under ``.git/hooks/commit-msg``.
+- After creating the ``commit-msg file``, make it executable:
+```bash
+  chmod +x .git/hooks/commit-msg
+```
+- Now, every time you commit, this hook will run, and it will enforce the commit message style. 
+If the message doesn't comply, the commit will be rejected, and you'll be prompted to correct the message.
+
+### Make the Hook Portable and Version Controlled
+- **Place the Hook in Your Repository :** Store the hook script in your repository, say under ``scripts/commit-msg``.
+- **Instruct Developers to Set Up the Hook :** Developers can copy or symlink this script to ``.git/hooks/commit-msg`` in their local repositories. 
+Alternatively, you can automate this setup with Maven.
+
+    **Automate with Setup**
+    ```shell
+        # Inside a setup script
+        cp scripts/commit-msg .git/hooks/commit-msg
+        chmod +x .git/hooks/commit-msg
+    ```
+  **Automate with Maven**
+  ```xml
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+                <execution>
+                    <phase>initialize</phase>
+                    <goals>
+                        <goal>run</goal>
+                    </goals>
+                    <configuration>
+                        <target>
+                            <copy file="${project.basedir}/scripts/commit-msg"
+                                  todir="${project.basedir}/.git/hooks/"
+                                  overwrite="true"/>
+                            <chmod file="${project.basedir}/.git/hooks/commit-msg"
+                                   perm="755"/>
+                        </target>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+  ```
 
 ---
