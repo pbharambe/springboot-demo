@@ -40,11 +40,15 @@ jobs:
             PR_NUMBER=$(_jq '.number')
             PR_TITLE=$(_jq '.title')
 
+            echo $PR_NUMBER
+
             # Fetch commits for this PR
             COMMITS=$(curl -s \
               -H "Accept: application/vnd.github.v3+json" \
               -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               $(_jq '.commits_url'))
+
+            echo "${COMMITS}"
           
             # Check for specific words in commit messages
             for commit in $(echo "${COMMITS}" | jq -r '.[] | @base64'); do
