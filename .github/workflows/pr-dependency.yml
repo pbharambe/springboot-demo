@@ -58,7 +58,7 @@ jobs:
               COMMIT_MESSAGE=$(_jq_commit '.commit.message')
               echo $COMMIT_MESSAGE
 
-              if echo "$COMMIT_MESSAGE" | grep -iq "specific-word"; then
+              if echo "$COMMIT_MESSAGE" | grep -iq $PR_TITLE; then
                 MATCHING_PR_FOUND=true
                 echo "Found matching commit in PR #$PR_NUMBER: $COMMIT_MESSAGE"
                 break 2  # Exit both loops if a match is found
