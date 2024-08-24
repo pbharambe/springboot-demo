@@ -1,0 +1,30 @@
+name: Check PR Dependency
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+jobs:
+  check-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Check PR Status in Other Repository
+        id: check_pr_status
+        run: |
+          PR_STATUS=$(curl -s \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/pbharambe/PR-demo/pulls/1 | jq -r .state)
+
+          echo "PR status: $PR_STATUS"
+          if [ "$PR_STATUS" != "closed" ]; then
+            echo "The required PR in the other repository is not merged."
+            exit 1
+          fi
+
+      - name: Continue if PR is merged
+        run: echo "The required PR is merged, proceeding with the workflow."
