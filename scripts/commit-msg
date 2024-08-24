@@ -1,0 +1,50 @@
+#!/bin/bash
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat $COMMIT_MSG_FILE)
+
+# Check header length
+HEADER=$(echo "$COMMIT_MSG" | head -n 1)
+HEADER_LENGTH=$(echo "$HEADER" | wc -c)
+
+if [ $HEADER_LENGTH -gt 50 ]; then
+  echo "Error: The commit message header is longer than 50 characters."
+  exit 1
+fi
+
+# Check for WIP (disallow commits with WIP)
+if echo "$COMMIT_MSG" | grep -iq "WIP"; then
+  echo "Error: Commit messages should not contain 'WIP'."
+  exit 1
+fi
+
+# Enforce specific prefixes (e.g., fix, docs, test)
+PREFIX=$(echo "$COMMIT_MSG" | awk '{print $1}' | sed 's/://')
+if ! echo "$PREFIX" | grep -E -q "^(Fix|Docs|Refactor|Test|Revert|CTSM:[0-9]+)$"; then
+  echo "Error: Commit message must start with one of the following prefixes: Fix, Docs, Refactor, Test, Revert, CTSM: followed by a number."
+  exit 1
+fi
+
+# Require issue reference (e.g., Closes #123)
+#if ! echo "$COMMIT_MSG" | grep -E -q "(Closes|Fixes|Resolves) #[0-9]+"; then
+#  echo "Error: Commit message must reference an issue (e.g., 'Closes #123')."
+#  exit 1
+#fi
+
+# Ensure there is a blank line between header and body
+BLANK_LINE=$(echo "$COMMIT_MSG" | sed -n 2p)
+if [ -n "$BLANK_LINE" ]; then
+  echo "Error: There should be a blank line between the header and the body."
+  exit 1
+fi
+
+# Check body line length
+BODY=$(echo "$COMMIT_MSG" | tail -n +3)
+BODY_TOO_LONG=$(echo "$BODY" | awk 'length($0) > 72')
+
+if [ -n "$BODY_TOO_LONG" ]; then
+  echo "Error: Body lines should not exceed 72 characters."
+  exit 1
+fi
+
+# All checks passed
+exit 0
