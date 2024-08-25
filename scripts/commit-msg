@@ -19,7 +19,7 @@ fi
 
 # Enforce specific prefixes (e.g., fix, docs, test)
 PREFIX=$(echo "$COMMIT_MSG" | awk '{print $1}' | sed 's/://')
-if ! echo "$PREFIX" | grep -E -q "^(Ctsm|Fix|Docs|Refactor|Test|Revert)$"; then
+if ! echo "$PREFIX" | grep -E -q "^(CTSM|Fix|Docs|Refactor|Test|Revert)$"; then
   echo "Error: Commit message must start with one of the following prefixes: Fix, Docs, Refactor, Test, Revert, CTSM: followed by a number."
   exit 1
 fi
