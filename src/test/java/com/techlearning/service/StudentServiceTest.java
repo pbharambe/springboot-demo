@@ -40,6 +40,7 @@ class StudentServiceTest {
 
     @Test
     @Order(1)
+    @DisplayName("Create with entity")
     public void test_Create_forSuccessfull()  {
         when(studentRepository.save(any())).thenReturn(studentEntity);
         StudentEntity result = studentService.create(studentEntity);
@@ -51,7 +52,21 @@ class StudentServiceTest {
     }
 
     @Test
+    @Order(1)
+    @DisplayName("Create with First and Last Name")
+    public void test_Create_WhenFirstNLastNameGiven_forSuccessfull()  {
+        when(studentRepository.save(any())).thenReturn(studentEntity);
+        StudentEntity result = studentService.create("Ram", "");
+        Assertions.assertAll(
+                () -> assertNotNull(result),
+                () -> assertEquals(studentEntity.getFirstName(), result.getFirstName()),
+                () -> verify(logger, times(1)).info("Student Save operation.")
+        );
+    }
+
+    @Test
     @Order(2)
+    @DisplayName("Get student record")
     public void test_GetStudent_forGivenData() {
         Optional<StudentEntity> optionalStudent = Optional.of(studentEntity);
         when(studentRepository.findByFirstName(anyString())).thenReturn(optionalStudent);
@@ -65,6 +80,7 @@ class StudentServiceTest {
 
     @Test
     @Order(3)
+    @DisplayName("Delete Student record")
     public void test_Delete_forGivenData() {
         studentService.deleteStudentByName("John");
         Optional<StudentEntity> studentEntity = studentRepository.findById(1L);
