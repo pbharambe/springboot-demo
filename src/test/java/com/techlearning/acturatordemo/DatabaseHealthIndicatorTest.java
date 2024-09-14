@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 public class DatabaseHealthIndicatorTest {
@@ -40,8 +40,11 @@ public class DatabaseHealthIndicatorTest {
         when(connection.isValid(1000)).thenReturn(true);
 
         Health health = databaseHealthIndicator.health();
-        assertEquals(Status.UP, health.getStatus());
-        assertEquals("Available", health.getDetails().get("Database"));
+        assertAll(
+                () -> assertNotNull(health),
+                () -> assertEquals(Status.UP, health.getStatus()),
+                () -> assertEquals("Available", health.getDetails().get("Database"))
+        );
     }
 
     @Test
@@ -51,8 +54,11 @@ public class DatabaseHealthIndicatorTest {
         when(connection.isValid(1000)).thenReturn(false);
 
         Health health = databaseHealthIndicator.health();
-        assertEquals(Status.DOWN, health.getStatus());
-        assertEquals("Unavailable", health.getDetails().get("Database"));
+        assertAll(
+                () -> assertNotNull(health),
+                () -> assertEquals(Status.DOWN, health.getStatus()),
+                () -> assertEquals("Unavailable", health.getDetails().get("Database"))
+        );
     }
 
     @Test
@@ -62,8 +68,11 @@ public class DatabaseHealthIndicatorTest {
         when(dataSource.getConnection()).thenThrow(new SQLException("Connection error"));
 
         Health health = databaseHealthIndicator.health();
-        assertEquals(Status.DOWN, health.getStatus());
-        assertEquals("Error", health.getDetails().get("Database"));
-        assertEquals("java.sql.SQLException: Connection error", health.getDetails().get("error").toString());
+        assertAll(
+                () -> assertNotNull(health),
+                () -> assertEquals(Status.DOWN, health.getStatus()),
+                () -> assertEquals("Error", health.getDetails().get("Database")),
+                () -> assertEquals("java.sql.SQLException: Connection error", health.getDetails().get("error").toString())
+        );
     }
 }
