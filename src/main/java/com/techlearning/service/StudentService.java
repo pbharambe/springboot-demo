@@ -22,6 +22,12 @@ public class StudentService {
     private StudentRepository studentRepository;
 
     @CachePut(value = "student_data", key = "#root.args[0]")
+    public StudentEntity create(StudentEntity studentEntity) {
+        logger.info("Student Save operation.");
+        return studentRepository.save(studentEntity);
+    }
+
+    @CachePut(value = "student_data", key = "#root.args[0]")
     public StudentEntity create(String firstName, String lastName) {
         logger.info("Student Save operation.");
         StudentEntity.StudentEntityBuilder builder = StudentEntity.builder();
@@ -31,25 +37,22 @@ public class StudentService {
     @Cacheable(value = "student_data")
     public StudentEntity getStudent(String firstName) {
         logger.info("Fetch Student information by firstName criteria");
-        return studentRepository.findByFirstName(firstName).get();
+        return studentRepository.findByFirstName(firstName).orElse(null);
     }
 
     @Transactional
     @CacheEvict(value = "student_data", key = "#root.args[0]")
-    public void deleteStudentByName(String firstName) {
+    public String deleteStudentByName(String firstName) {
         logger.info("Delete Student entry by firstName criteria");
-        studentRepository.deleteByFirstName(firstName);
+        if (studentRepository.deleteByFirstName(firstName) == 1) {
+            return "Records got deleted";
+        }
+        return "Records not deleted";
     }
 
     @CacheEvict(value = "student_data", allEntries = true, key = "#root.args[0]")
     public void deleteStudentData() {
         logger.info("Delete all Student entries");
         studentRepository.deleteAll();
-    }
-
-    @CachePut(value = "student_data", key = "#root.args[0]")
-    public StudentEntity create(StudentEntity studentEntity) {
-        logger.info("Student Save operation.");
-        return studentRepository.save(studentEntity);
     }
 }

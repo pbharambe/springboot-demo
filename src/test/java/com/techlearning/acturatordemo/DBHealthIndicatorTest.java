@@ -14,9 +14,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -83,5 +81,19 @@ public class DBHealthIndicatorTest {
                 () -> assertEquals(Status.DOWN, health.getStatus()),
                 () -> assertEquals("Unavailable", health.getDetails().get("Database"))
         );
+    }
+
+    @Test
+    void getHealthWithDetails() {
+        Health health = dbHealthIndicator.getHealth(true);
+        assertEquals(Status.DOWN, health.getStatus());
+        assertEquals("Unavailable", health.getDetails().get("Database"));
+    }
+
+    @Test
+    void getHealthWithoutDetails() {
+        Health health = dbHealthIndicator.getHealth(false);
+        assertEquals(Status.UP, health.getStatus());
+        assertTrue(health.getDetails().isEmpty());
     }
 }

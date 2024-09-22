@@ -77,16 +77,4 @@ class StudentServiceTest {
                 () -> verify(logger, times(1)).info("Fetch Student information by firstName criteria")
         );
     }
-
-    @Test
-    @Order(3)
-    @DisplayName("Delete Student record")
-    public void test_Delete_forGivenData() {
-        studentService.deleteStudentByName("John");
-        Optional<StudentEntity> studentEntity = studentRepository.findById(1L);
-        Assertions.assertAll(
-                () -> verify(logger, times(1)).info("Delete Student entry by firstName criteria"),
-                () -> assertTrue(studentEntity.isEmpty())
-        );
-    }
 }

@@ -20,7 +20,11 @@ public class DBHealthIndicator implements HealthIndicator {
 
     @Override
     public Health getHealth(boolean includeDetails) {
-        return HealthIndicator.super.getHealth(includeDetails);
+        if(includeDetails) {
+            return HealthIndicator.super.getHealth(includeDetails);
+        } else {
+            return Health.up().build();
+        }
     }
 
     @Override

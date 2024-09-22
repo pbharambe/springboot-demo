@@ -1,7 +1,6 @@
 package com.techlearning.repository;
 
 import com.techlearning.entity.StudentEntity;
-import com.techlearning.repository.StudentRepository;
 import com.techlearning.untility.StudentDataBuilder;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 import org.assertj.core.api.Assertions;
 
-import java.util.Collections;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -39,8 +39,11 @@ class StudentRepositoryTest {
     @Test
     @Order(3)
     public void test_DeleteByFirstName() {
-        studentRepository.deleteByFirstName("John");
+        int result = studentRepository.deleteByFirstName("John");
         Optional<StudentEntity> studentEntity = studentRepository.findById(1L);
-        Assertions.assertThat(studentEntity).isEmpty();
+        assertAll(
+                () -> assertTrue(studentEntity.isEmpty()),
+                () -> assertEquals(1, result)
+        );
     }
 }

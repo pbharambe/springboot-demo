@@ -9,5 +9,5 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long> {
 
     Optional<StudentEntity> findByFirstName(String firstName);
 
-    void deleteByFirstName(String firstName);
+    int deleteByFirstName(String firstName);
 }
