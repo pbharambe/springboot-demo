@@ -2,7 +2,7 @@ package com.techlearning.service;
 
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
-import io.github.bucket4j.Bucket4j;
+//import io.github.bucket4j.Bucket4j;
 import io.github.bucket4j.Refill;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,8 @@ public class RateLimitingService {
     }
 
     public Bucket createNewBucket(String apiKey) {
+
         Bandwidth limit = Bandwidth.classic(10, Refill.smooth(10, Duration.ofMinutes(1)));
-        return Bucket4j.builder().addLimit(limit).build();
+        return Bucket.builder().addLimit(limit).build();
     }
 }
