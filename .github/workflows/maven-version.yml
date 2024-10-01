@@ -5,9 +5,9 @@ name: Maven Package Version
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
 #  release:
 #    types: [created]
 
