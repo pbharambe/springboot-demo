@@ -31,7 +31,7 @@ jobs:
           version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "Project Version: $version"
           echo "version=$version" >> $GITHUB_ENV
-          echo ${{ env.version }}
+          echo "${{ env.version }}"
 
       # - name: Build with Maven
       #   run: mvn -B clean package --file pom.xml
