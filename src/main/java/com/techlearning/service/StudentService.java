@@ -1,6 +1,8 @@
 package com.techlearning.service;
 
+import com.techlearning.dto.StudentDTO;
 import com.techlearning.entity.StudentEntity;
+import com.techlearning.mapper.StudentMapper;
 import com.techlearning.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -35,9 +37,9 @@ public class StudentService {
     }
 
     @Cacheable(value = "student_data")
-    public StudentEntity getStudent(String firstName) {
+    public StudentDTO getStudent(String firstName) {
         logger.info("Fetch Student information by firstName criteria");
-        return studentRepository.findByFirstName(firstName).orElse(null);
+        return StudentMapper.INSTANCE.convertStudentEntityToStudentDTO(studentRepository.findByFirstName(firstName).orElse(null));
     }
 
     @Transactional

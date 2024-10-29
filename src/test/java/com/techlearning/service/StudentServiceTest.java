@@ -1,5 +1,6 @@
 package com.techlearning.service;
 
+import com.techlearning.dto.StudentDTO;
 import com.techlearning.entity.StudentEntity;
 import com.techlearning.repository.StudentRepository;
 import com.techlearning.untility.StudentDataBuilder;
@@ -70,10 +71,10 @@ class StudentServiceTest {
     public void test_GetStudent_forGivenData() {
         Optional<StudentEntity> optionalStudent = Optional.of(studentEntity);
         when(studentRepository.findByFirstName(anyString())).thenReturn(optionalStudent);
-        StudentEntity result = studentService.getStudent("John");
+        StudentDTO result = studentService.getStudent("John");
         Assertions.assertAll(
                 () -> assertNotNull(result),
-                () -> assertEquals(studentEntity.getFirstName(), result.getFirstName()),
+                () -> assertEquals(studentEntity.getFirstName(), result.firstName()),
                 () -> verify(logger, times(1)).info("Fetch Student information by firstName criteria")
         );
     }

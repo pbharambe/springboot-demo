@@ -60,6 +60,18 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 
+		<!-- Mapstruct -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.5.5.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-processor</artifactId>
+			<version>1.5.5.Final</version>
+		</dependency>
+
 		<!-- Bucket4j -->
 		<!--<dependency>
 			<groupId>com.github.vladimir-bukhtoyarov</groupId>

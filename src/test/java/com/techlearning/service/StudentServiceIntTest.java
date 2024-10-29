@@ -1,5 +1,6 @@
 package com.techlearning.service;
 
+import com.techlearning.dto.StudentDTO;
 import com.techlearning.entity.StudentEntity;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,8 +22,8 @@ public class StudentServiceIntTest {
     public static Stream<StudentEntity> studentEntityProvider() {
         return Stream.of(
                 new StudentEntity(1,"John", "Doe"),
-                new StudentEntity(2, "Jane", "Smith"),
-                new StudentEntity(3, "Alice", "Johnson")
+                new StudentEntity(2,"Jane", "Smith"),
+                new StudentEntity(3,"Alice", "Johnson")
         );
     }
 
@@ -42,17 +43,17 @@ public class StudentServiceIntTest {
     @Order(2)
     @DisplayName("Get John's Data")
     public void test_GetStudent_ForGivenName() {
-        StudentEntity result = service.getStudent("John");
+        StudentDTO result = service.getStudent("John");
         Assertions.assertAll(
                 () -> assertNotNull(result),
-                () -> assertEquals(studentEntityProvider().findFirst().get().getFirstName(), result.getFirstName())
+                () -> assertEquals(studentEntityProvider().findFirst().get().getFirstName(), result.firstName())
         );
     }
 
     @Test
     @Order(2)
     public void test_GetStudent_ForNotFoundRecord() {
-        StudentEntity result = service.getStudent("john");
+        StudentDTO result = service.getStudent("john");
         Assertions.assertAll(
                 () -> assertNull(result)
         );

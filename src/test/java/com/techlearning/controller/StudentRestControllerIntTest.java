@@ -2,7 +2,9 @@ package com.techlearning.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.techlearning.dto.StudentDTO;
 import com.techlearning.entity.StudentEntity;
+import com.techlearning.mapper.StudentMapper;
 import com.techlearning.service.StudentService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -44,6 +46,9 @@ public class StudentRestControllerIntTest {
 
     public static Stream<StudentEntity> studentEntityProvider() {
         return Stream.of(
+                /*new StudentEntity("John", "Doe"),
+                new StudentEntity("Jane", "Smith"),
+                new StudentEntity("Alice", "Johnson")*/
                 new StudentEntity(1,"John", "Doe"),
                 new StudentEntity(2, "Jane", "Smith"),
                 new StudentEntity(3, "Alice", "Johnson")
@@ -71,10 +76,10 @@ public class StudentRestControllerIntTest {
     public void test_GetStudent() {
         ResponseEntity<String> returnStr =  restClient.get().uri("/get/John")
                 .retrieve().toEntity(String.class);
-        StudentEntity studentEntity = studentEntityProvider().filter(s -> s.getFirstName().equals("John")).findFirst().get();
+        StudentDTO studentDTO = StudentMapper.INSTANCE.convertStudentEntityToStudentDTO(studentEntityProvider().filter(s -> s.getFirstName().equals("John")).findFirst().get());
         assertAll(
                 () -> assertEquals(HttpStatus.OK, returnStr.getStatusCode()),
-                () -> assertEquals(objectMapper.writeValueAsString(studentEntity), returnStr.getBody())
+                () -> assertEquals(objectMapper.writeValueAsString(studentDTO), returnStr.getBody())
         );
     }
 

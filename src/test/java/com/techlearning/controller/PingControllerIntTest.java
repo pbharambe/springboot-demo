@@ -35,7 +35,7 @@ public class PingControllerIntTest {
         PingController.ApplicationDetails detailsResponse = restClient.get().uri("/details").retrieve().body(PingController.ApplicationDetails.class);
         assertAll(
                 () -> assertNotNull(detailsResponse),
-                () -> assertEquals("Application is up!", detailsResponse.getResponse())
+                () -> assertEquals("Application is up!", detailsResponse.response())
         );
     }
 

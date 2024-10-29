@@ -23,30 +23,7 @@ public class PingController {
         return new ResponseEntity<>(new ApplicationDetails(buildProperties.getVersion(), "Application is up!"), HttpStatus.OK);
     }
 
-    static class ApplicationDetails {
-        String response;
-        String applicationVersion;
-
-        public String getResponse() {
-            return response;
-        }
-
-        public void setResponse(String response) {
-            this.response = response;
-        }
-
-        public String getApplicationVersion() {
-            return applicationVersion;
-        }
-
-        public void setApplicationVersion(String applicationVersion) {
-            this.applicationVersion = applicationVersion;
-        }
-
-        public ApplicationDetails(String applicationVersion, String response) {
-            this.applicationVersion = applicationVersion;
-            this.response = response;
-        }
+    record ApplicationDetails (String applicationVersion, String response) {
     }
 
     @Autowired

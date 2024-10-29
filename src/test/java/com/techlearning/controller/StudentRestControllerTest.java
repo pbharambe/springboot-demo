@@ -1,7 +1,9 @@
 package com.techlearning.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.techlearning.dto.StudentDTO;
 import com.techlearning.entity.StudentEntity;
+import com.techlearning.mapper.StudentMapper;
 import com.techlearning.service.StudentService;
 import com.techlearning.untility.StudentDataBuilder;
 import org.junit.jupiter.api.Test;
@@ -48,15 +50,15 @@ public class StudentRestControllerTest {
 
     @Test
     public void test_GetStudentData() throws Exception {
-        StudentEntity studentEntity = StudentDataBuilder.CreateStudentEntity();
+        StudentDTO studentDTO = StudentMapper.INSTANCE.convertStudentEntityToStudentDTO(StudentDataBuilder.CreateStudentEntity());
 
-        when(service.getStudent(anyString())).thenReturn(studentEntity);
+        when(service.getStudent(anyString())).thenReturn(studentDTO);
 
         mockMvc.perform(get("/get/{firstName}", "John")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName").value(studentEntity.getFirstName()))
-                .andExpect(jsonPath("$.lastName").value(studentEntity.getLastName()));
+                .andExpect(jsonPath("$.firstName").value(studentDTO.firstName()))
+                .andExpect(jsonPath("$.lastName").value(studentDTO.lastName()));
     }
 
 }

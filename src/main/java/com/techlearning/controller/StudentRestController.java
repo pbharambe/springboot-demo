@@ -1,5 +1,6 @@
 package com.techlearning.controller;
 
+import com.techlearning.dto.StudentDTO;
 import com.techlearning.entity.StudentEntity;
 import com.techlearning.service.StudentService;
 import jakarta.validation.Valid;
@@ -33,7 +34,7 @@ public class StudentRestController {
     }
 
     @GetMapping("/get/{firstName}")
-    public ResponseEntity<StudentEntity> getStudent(@PathVariable("firstName") @Valid String firstName) {
+    public ResponseEntity<StudentDTO> getStudent(@PathVariable("firstName") @Valid String firstName) {
         logger.info("Retrieve Student by firstName");
         return new ResponseEntity<>(service.getStudent(firstName), HttpStatus.OK);
     }
