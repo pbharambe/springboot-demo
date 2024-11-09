@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<url/>
+	<url />
 	<licenses>
-		<license/>
+		<license />
 	</licenses>
 	<developers>
-		<developer/>
+		<developer />
 	</developers>
 	<scm>
 		<url>https://github.com/pbharambe/springboot-demo</url>
 		<developerConnection>scm:git:https://${env.GIT_USER}:${env.GIT_PASS}@github.com/pbharambe/springboot-demo.git</developerConnection>
 		<connection>scm:git:https://${env.GIT_USER}:${env.GIT_PASS}@github.com/pbharambe/springboot-demo.git</connection>
-		<tag>HEAD</tag>
+		<tag>v0.0.1</tag>
 	</scm>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.3.2</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>com.techlearning</groupId>
 	<artifactId>springboot-demo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>springboot-demo</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -138,11 +137,9 @@
 						</goals>
 						<configuration>
 							<target>
-								<copy file="${project.basedir}/scripts/commit-msg"
-									  todir="${project.basedir}/.git/hooks/"
+								<copy file="${project.basedir}/scripts/commit-msg" todir="${project.basedir}/.git/hooks/"
 									  overwrite="true"/>
-								<chmod file="${project.basedir}/.git/hooks/commit-msg"
-									   perm="755"/>
+								<chmod file="${project.basedir}/.git/hooks/commit-msg" perm="755"/>
 							</target>
 						</configuration>
 					</execution>
