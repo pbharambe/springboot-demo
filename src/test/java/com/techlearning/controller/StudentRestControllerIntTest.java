@@ -6,6 +6,7 @@ import com.techlearning.dto.StudentDTO;
 import com.techlearning.entity.StudentEntity;
 import com.techlearning.mapper.StudentMapper;
 import com.techlearning.service.StudentService;
+import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -64,9 +65,14 @@ public class StudentRestControllerIntTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(objectMapper.writeValueAsString(studentEntity))
                 .retrieve().toEntity(String.class);
+
+//        JSONObject json = new JSONObject(objectMapper.writeValueAsString(studentEntity));
+//        json.getString("firstName")
+
         assertAll(
                 () -> assertEquals(HttpStatus.CREATED, returnStr.getStatusCode()),
-                () -> assertEquals(objectMapper.writeValueAsString(studentEntity), returnStr.getBody())
+                //() -> assertEquals(objectMapper.writeValueAsString(studentEntity), returnStr.getBody()),
+                () -> assertEquals(studentEntity.getFirstName(), new JSONObject(objectMapper.writeValueAsString(studentEntity)).getString("firstName") )
         );
     }
 

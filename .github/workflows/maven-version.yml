@@ -12,7 +12,7 @@ on:
 #    types: [created]
 
 jobs:
-  build:
+  publich_version:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
