@@ -11,10 +11,9 @@
 		<developer/>
 	</developers>
 	<scm>
-		<developerConnection/>
-		<connection>scm:git:https://${env.GIT_USER}:${env.GIT_PASS}@github.com/pbharambe/springboot-demo.git
-		</connection>
 		<url>https://github.com/pbharambe/springboot-demo</url>
+		<developerConnection>scm:git:https://${env.GIT_USER}:${env.GIT_PASS}@github.com/pbharambe/springboot-demo.git</developerConnection>
+		<connection>scm:git:https://${env.GIT_USER}:${env.GIT_PASS}@github.com/pbharambe/springboot-demo.git</connection>
 		<tag>HEAD</tag>
 	</scm>
 
