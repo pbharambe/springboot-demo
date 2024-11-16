@@ -5,7 +5,6 @@
 
 [Springdoc-openapi (swagger)](https://springdoc.org/#swagger-ui-properties)
 
-
 To enable Swagger OpenAPI add dependency 
 ```xml
     <dependency>
