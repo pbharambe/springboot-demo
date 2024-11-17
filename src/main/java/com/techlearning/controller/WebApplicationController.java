@@ -1,5 +1,6 @@
 package com.techlearning.controller;
 
+import com.techlearning.response.GenericResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,4 +31,18 @@ public class WebApplicationController {
     public String index() {
         return "Welcome";
     }
+
+    @GetMapping(value = "/greet/{name}")
+    public ResponseEntity<GenericResponse<String>> genericWelcome(@PathVariable("name") String name) {
+        if (name.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .header("custome-header", "value")
+                    .body(GenericResponse.empty());
+        } else {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .header("custome-header", "value")
+                    .body(GenericResponse.success("Welcome " + name + " !!"));
+        }
+    }
+
 }
