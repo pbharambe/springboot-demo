@@ -33,7 +33,9 @@ jobs:
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
       - name: Build with Maven
-        run: mvn -B clean package --file pom.xml
+        run: |
+          echo "Branch details --" ${GITHUB_REF}
+          mvn -B clean package --file pom.xml
 
   Prepare_Release:
     runs-on: ubuntu-latest
