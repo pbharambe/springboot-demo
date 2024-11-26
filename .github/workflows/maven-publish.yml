@@ -35,6 +35,7 @@ jobs:
       - name: Build with Maven
         run: |
           echo "Branch details --" ${GITHUB_REF}
+          echo $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           mvn -B clean package --file pom.xml
 
   Prepare_Release:
