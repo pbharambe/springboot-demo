@@ -1,4 +1,4 @@
-name: "Call External Composite Action"
+name: Call External Composite Action
 
 on:
   workflow_dispatch:
