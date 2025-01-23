@@ -1,0 +1,20 @@
+name: "Call External Composite Action"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  example-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository (optional, for context)
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Use the composite action from another repo
+      - name: Call Composite Action
+        uses: pbharambe/gitHub-action-demo/.github/actions@main
+        with:
+          who-to-greet: test
+          upload-path: "${{ github.workspace }}/*"
