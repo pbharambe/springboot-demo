@@ -10,7 +10,7 @@ jobs:
     steps:
       # Step 1: Check out the repository (optional, for context)
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step 2: Use the composite action from another repo
       - name: Call Composite Action
