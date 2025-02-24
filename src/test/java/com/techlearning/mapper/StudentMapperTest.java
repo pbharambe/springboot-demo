@@ -3,6 +3,8 @@ package com.techlearning.mapper;
 import com.techlearning.dto.StudentDTO;
 import com.techlearning.entity.StudentEntity;
 import com.techlearning.untility.StudentDataBuilder;
+import org.instancio.Instancio;
+import org.instancio.Select;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -39,8 +41,39 @@ class StudentMapperTest {
     }
 
     @Test
+    void test_convertStudentEntityToStudentDTO_Using_Instancio() {
+        StudentEntity studentEntity = Instancio.of(StudentEntity.class)
+                .set(Select.field(StudentEntity::getId), 1)
+                .set(Select.field(StudentEntity::getFirstName), "John")
+                .set(Select.field(StudentEntity::getLastName), "Smith")
+                .create();
+
+        StudentDTO studentDTO = studentMapper.convertStudentEntityToStudentDTO(studentEntity);
+        assertAll(
+                () -> assertNotNull(studentDTO),
+                () -> assertNull(studentDTO.id()),
+                () -> assertEquals(studentEntity.getFirstName(), studentDTO.firstName())
+        );
+    }
+
+    @Test
     void test_convertStudentDtoToStudentEntity() {
         StudentDTO studentDTO = StudentDataBuilder.CreateStudentDTO();
+        StudentEntity studentEntity = studentMapper.convertStudentDtoToStudentEntity(studentDTO);
+        assertAll(
+                () -> assertNotNull(studentEntity),
+                () -> assertEquals(studentEntity.getId(), studentDTO.id()),
+                () -> assertEquals(studentEntity.getFirstName(), studentDTO.firstName())
+        );
+    }
+
+    @Test
+    void test_convertStudentDtoToStudentEntity_Using_Instancio() {
+        StudentDTO studentDTO = Instancio.of(StudentDTO.class)
+                .set(Select.field("id"), 1l)
+                .set(Select.field("firstName"), "John")
+                .set(Select.field("lastName"), "Smith")
+                .create();
         StudentEntity studentEntity = studentMapper.convertStudentDtoToStudentEntity(studentDTO);
         assertAll(
                 () -> assertNotNull(studentEntity),
